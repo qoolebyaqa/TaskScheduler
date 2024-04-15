@@ -8,7 +8,7 @@ async function patchTask(id: any, status: string) {
   try {
     await fetch(`${baseUrl}${id}/tasksArr.json`, {
       method: "PATCH",
-      body: JSON.stringify({ stage: status, today: Date.now() }),
+      body: JSON.stringify({ stage: status, completedDate: status === 'completed' ? Date.now() : '' }),
       headers: { "Content-Type": "application/json" },
     });
   } catch {
@@ -35,7 +35,7 @@ function Task({ title, details, deadline, id, stage }: any) {
   async function handleCompleteStatus() {
     const modifiedList = listOfTasks.map((task: any) => {
       if (task.id === id) {
-        task = { ...task, stage: "completed", completedDate: Date.now()};
+        task = { ...task, stage: "completed"};
       }
       return task;
     });
