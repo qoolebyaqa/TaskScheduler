@@ -10,7 +10,7 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/TaskScheduler/',
       element: <RootLayout />,
       children: paths
     }
