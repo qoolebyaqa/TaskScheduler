@@ -6,6 +6,6 @@ export default defineConfig({
   base: '/TaskScheduler/',
   plugins: [react()],
   build: {
-    chunkSizeWarningLimit: 700,
+    chunkSizeWarningLimit: 950,
   },
 })

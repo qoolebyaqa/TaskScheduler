@@ -33,7 +33,7 @@ function GraphStats() {
     return {
       name: task.title,
       Result_Time: positiveTime,
-      Dif_of_Planned_Time: originTime,
+      Planned_Time: originTime,
     };
   });
 
@@ -53,7 +53,6 @@ function GraphStats() {
     innerRadius,
     outerRadius,
     percent,
-    index,
   }: any) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -77,7 +76,7 @@ function GraphStats() {
       <div className="h-44">
         <p>Graph of saved time with completed tasks</p>
         <BarChart
-          width={100 * completedTasks.length}
+          width={115 * completedTasks.length}
           height={300}
           data={data}
           margin={{
@@ -99,7 +98,7 @@ function GraphStats() {
           <Tooltip />
           <Legend align="right" />
           <Bar dataKey="Result_Time" stackId="a" fill="rgb(8 145 178)" />
-          <Bar dataKey="Dif_of_Planned_Time" stackId="a" fill="#82ca9d" />
+          <Bar dataKey="Planned_Time" stackId="a" fill="#82ca9d" />
         </BarChart>
       </div>
       <div>
@@ -115,10 +114,10 @@ function GraphStats() {
             fill="#8884d8"
             dataKey="value"
           >
-            {data.map((entry: any, index: number) => (
+            {data.map((entry?:any, index?: number) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={COLORS[index! % COLORS.length]}
               />
             ))}
           </Pie>
