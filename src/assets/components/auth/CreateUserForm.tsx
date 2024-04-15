@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Stats from "../Stats";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { newTaskActions } from "../../../store";
+import { motion } from "framer-motion";
 
 
 function CreateUserForm() {
@@ -66,30 +67,33 @@ function CreateUserForm() {
   return (
     <>
       {(!activeUser && !showSignIn) ? (
-        <form
-          className="flex flex-col mt-10 w-4/12 m-auto gap-4"
+        <motion.form
+          initial={{y: 500}}
+          animate={{y: 0}}
+          className="flex flex-col mt-10 w-4/12 m-auto gap-4 text-teal-800 bg-white p-12 rounded-lg"
           onSubmit={handeSubmit}
         >
-          <h2>Registration of new User</h2>
+          <h2 className="text-2xl font-bold">Welcome to Schedule</h2>
+          <p>Registration of new User</p>
           <div className="flex flex-col">
             <label htmlFor="login">Username</label>
-            <input type="text" name="login" id="login" className="text-slate-900" />
+            <input type="text" name="login" id="login" className="text-slate-900 border-2 border-black" />
           </div>
           <div className="flex flex-col">
             <label htmlFor="password">Password</label>
-            <input type="password" name="password" id="password" className="text-slate-900" />
+            <input type="password" name="password" id="password" className="text-slate-900 border-2 border-black" />
           </div>
           <div className="flex gap-5 m-auto">
-            <button disabled={fetching} className="bg-gray-700">
+            <button disabled={fetching} className="bg-cyan-600 rounded-lg w-40 border-2 border-black text-black h-10 disabled:bg-sky-300">
               {fetching ? "Try to register..." : "Create User"}
             </button>
-            <button type="button" onClick={handleShowSignIn}>Do you have an account?</button>
+            <button type="button" onClick={handleShowSignIn}>Already have an account?</button>
           </div>
           {err && <p className="text-red-800">{err}</p>}
-        </form>
+        </motion.form>
       ) : activeUser ? (<>
         <div className="flex justify-between">
-          <h2>Hello, {activeUser}</h2>
+          <h2 className="text-2xl">Hello, {activeUser}</h2>
           <LogOutButton />
         </div>
         <Stats />

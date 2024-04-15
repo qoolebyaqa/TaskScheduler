@@ -1,18 +1,21 @@
 import { useDispatch, useSelector } from "react-redux";
 import { newTaskActions } from "../../store";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 function NewTask() {
   const dispatch = useDispatch();
+  const [fetching, setFetching] = useState(false);
+  const [err, setErr] = useState("");
   const activeUser = useSelector((state:any) => state.tasksRelated.activeUser);
   async function handleSaveTask(event:any){
     event.preventDefault();
+    setFetching(true)
     const newId = Date.now();
     
     const fd = new FormData(event.target);
     
-    const data:any = {...Object.fromEntries(fd.entries()), stage: 'active', id: newId};
-    const restDays = Math.floor((Number(new Date(data.duedate)) - Number(new Date(newId))) / (60 * 60 * 24 * 1000));
-    data.reserveDays = restDays;
+    const data:any = {...Object.fromEntries(fd.entries()), stage: 'active', id: newId, creationDate: Date.now()};
     try {
       const res = await fetch("https://udemy-max-b1bc4-default-rtdb.asia-southeast1.firebasedatabase.app/usertasks.json",
       {
@@ -27,8 +30,9 @@ function NewTask() {
       const responsePost = await res.json();
       data.id = responsePost.name
     } catch (err) {
-      throw new Error('could not save the task');
+      setErr('could not save the task');
     }
+    setFetching(false);
     dispatch(newTaskActions.newTaskAdd(data));
     dispatch(newTaskActions.filterOfTotalTasks());
     dispatch(newTaskActions.newTaskForm());
@@ -39,16 +43,19 @@ function NewTask() {
   }
 
   return ( <div className="absolute w-full h-screen left-0 top-0 flex align-middle bg-sky-900">
-  <form className="flex flex-col w-2/5 m-auto" onSubmit={handleSaveTask} >
+  <motion.form className="flex flex-col w-2/5 m-auto text-teal-800 bg-white p-12 rounded-lg" onSubmit={handleSaveTask} >
+    <h3 className="text-2xl font-bold">Schedule new task</h3>
     <label htmlFor="title">Title</label>
-    <input type="text" name="title" id="title" className="bg-gray-600"/>
+    <input type="text" name="title" id="title" maxLength={20} className="text-slate-900 border-2 border-black"/>
     <label htmlFor="description">Description</label>
-    <textarea name="description" id="description" className="bg-gray-600"/>
+    <textarea name="description" id="description" className="text-slate-900 border-2 border-black"/>
     <label htmlFor="duedate">Dead-line</label>
-    <input type="date" name="duedate" id="duedate" min={new Date().toJSON().slice(0, 10)} className="bg-gray-600"/>
-    <button>Save the task</button>
+    <input type="date" name="duedate" id="duedate" min={new Date().toJSON().slice(0, 10)} className="text-slate-900 border-2 border-black"/>
+    <button className="bg-sky-700 text-black w-2/4 mx-auto my-4 rounded-lg disabled:bg-sky-600 disabled:text-zinc-600" disabled={fetching}>
+      {fetching ? 'Saving...' : 'Save the task'}</button>
     <button type="button" onClick={handleCloseForm}>Close</button>
-  </form>
+    {err && <p className="text-red-700">{err}</p>}
+  </motion.form>
   </div> );
 }
 

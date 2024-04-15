@@ -8,7 +8,7 @@ async function patchTask(id: any, status: string) {
   try {
     await fetch(`${baseUrl}${id}/tasksArr.json`, {
       method: "PATCH",
-      body: JSON.stringify({ stage: status }),
+      body: JSON.stringify({ stage: status, today: Date.now() }),
       headers: { "Content-Type": "application/json" },
     });
   } catch {
@@ -24,7 +24,7 @@ async function deleteTask(id: any) {
       method: "DELETE",
     });
   } catch {
-    throw new Error("Could not update item");
+    throw new Error("Could not delete item");
   }
 }
 
@@ -35,7 +35,7 @@ function Task({ title, details, deadline, id, stage }: any) {
   async function handleCompleteStatus() {
     const modifiedList = listOfTasks.map((task: any) => {
       if (task.id === id) {
-        task = { ...task, stage: "completed", completedDate: new Date(Date.now())};
+        task = { ...task, stage: "completed", completedDate: Date.now()};
       }
       return task;
     });

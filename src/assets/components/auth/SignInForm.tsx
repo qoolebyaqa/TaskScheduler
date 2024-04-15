@@ -3,6 +3,7 @@ import { auth } from "../../../store/firebase";
 import { /* onAuthStateChanged, */ signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { newTaskActions } from "../../../store";
+import { motion } from "framer-motion";
 
 
 export function filterDb (objFromDB:any, username:any) {
@@ -36,6 +37,7 @@ function SignInForm({onRevertForm}:any) {
       const resData = await response.json();
       for (let key in resData) {
         resData[key].tasksArr.id = key;
+        resData[key].tasksArr.today = Date.now();
       }
       dispatch(newTaskActions.tasksUpdater(filterDb(resData, login.current?.value)));    
       dispatch(newTaskActions.setActiveUser(login.current?.value));
@@ -48,28 +50,31 @@ function SignInForm({onRevertForm}:any) {
 
   return (
     <>
-        <form
-          className="flex flex-col mt-10 w-4/12 m-auto gap-4"
+        <motion.form
+          initial={{x: 500}}
+          animate={{x: 0}}
+          className="flex flex-col mt-10 w-4/12 m-auto gap-4 text-teal-800 bg-white p-12 rounded-lg"
           onSubmit={handeSubmit}
         >
-          <h2>Enter to your account</h2>
+          <h2 className="text-2xl font-bold">Sign in to Schedule</h2>
+          <p>Enter to your account</p>
           <div className="flex flex-col">
             <label htmlFor="login">Username</label>
-            <input ref={login} type="text" name="login" id="login" className="text-slate-900" />
+            <input ref={login} type="text" name="login" id="login" className="text-slate-900 border-2 border-black"  />
           </div>
           <div className="flex flex-col">
             <label htmlFor="password">Password</label>
-            <input ref={pass} type="password" name="password" id="password" className="text-slate-900" />
+            <input ref={pass} type="password" name="password" id="password" className="text-slate-900 border-2 border-black"  />
           </div>
           <div className="flex gap-5 m-auto">
-            <button type="button" onClick={onRevertForm}>Are you novice?</button>
-            <button disabled={fetching} className="bg-gray-700">
+            <button type="button" onClick={onRevertForm}>Need to create an account?</button>
+            <button disabled={fetching} className="bg-cyan-600 rounded-lg w-40 border-2 border-black text-black h-10  disabled:bg-sky-300">
               {fetching ? "Try to enter..." : "Sign in"}
             </button>
           </div>
 
           {err && <p className="text-red-800">{err}</p>}
-        </form>
+        </motion.form>
     </>
   );
 }

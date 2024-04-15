@@ -8,6 +8,11 @@ function TaskBoard({quantity}:any) {
     .filter((task: any) => {
       return task.stage === "active";
     })
+    .map((task: any) => {      
+      const today = new Date(Date.now());
+      const taskDueDate = new Date(task.duedate);
+      return {...task, reserveDays: Math.floor((Number(taskDueDate) - Number(today)) / (60 * 60 * 24 * 1000))};
+    })
     .sort((itemA: any, itemB: any) => {
       return (itemA.reserveDays - itemB.reserveDays);
     }).slice(0, quantity);
