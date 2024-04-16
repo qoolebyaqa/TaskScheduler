@@ -7,10 +7,10 @@ function HeaderNavigation() {
   return (
     <header className="w-full">
       <nav>
-        <ul className="flex justify-end gap-12">
+        <ul className="justify-between flex sm:justify-end sm:gap-12">
           {paths.map((link) => {
             if (link.id === 'taskspage' && !userIn) {
-              return <li key={link.id}></li>
+              return <li key={link.id} className="hidden"></li>
             }
             if (link.id === 'loginpage' && userIn) {
               return (
