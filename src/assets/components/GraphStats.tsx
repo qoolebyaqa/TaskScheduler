@@ -43,7 +43,7 @@ function GraphStats() {
     { name: "Active", value: filtredLengths.active },
   ];
 
-  const COLORS = ["green", "red", "blue"];
+  const COLORS = ["#1b4a32", "#591a1a", "#2b1b4a"];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -116,7 +116,7 @@ function GraphStats() {
           >
             {data.map((entry?:any, index?: number) => (
               <Cell
-                key={`cell-${index}`}
+                key={`cell-${index}${entry}`}
                 fill={COLORS[index! % COLORS.length]}
               />
             ))}
