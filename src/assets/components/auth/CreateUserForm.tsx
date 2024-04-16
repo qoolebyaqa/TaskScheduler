@@ -93,7 +93,7 @@ function CreateUserForm() {
         </motion.form>
       ) : activeUser ? (<>
         <div className="flex justify-between">
-          <h2 className="text-2xl">Hello, {activeUser}</h2>
+          <h2 className="md:text-2xl text-sm">Hello, {activeUser}</h2>
           <LogOutButton />
         </div>
         <Stats />

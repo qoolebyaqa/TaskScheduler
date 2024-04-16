@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 function HeaderNavigation() {
   const userIn = useSelector((state: any) => state.tasksRelated.activeUser);
   return (
-    <header className="w-full">
+    <header className="w-full pb-4">
       <nav>
         <ul className="justify-between flex sm:justify-end sm:gap-12">
           {paths.map((link) => {

@@ -42,8 +42,8 @@ function NewTask() {
     dispatch(newTaskActions.newTaskForm());
   }
 
-  return ( <div className="absolute w-full h-screen left-0 top-0 flex align-middle bg-sky-900">
-  <motion.form className="flex flex-col w-2/5 m-auto text-teal-800 bg-white p-12 rounded-lg" onSubmit={handleSaveTask} 
+  return ( <div className="absolute w-full h-dvh left-0 top-0 flex align-middle bg-sky-900">
+  <motion.form className="flex flex-col md:w-2/5 w-10/12 m-auto text-teal-800 bg-white md:p-12 p-6 rounded-lg" onSubmit={handleSaveTask} 
   initial={{scale: 1.5}}
   animate={{scale: 1}}>
     <h3 className="text-2xl font-bold">Schedule new task</h3>

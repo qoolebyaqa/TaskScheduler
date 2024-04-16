@@ -6,7 +6,9 @@ const TaskSlice = createSlice({
   initialState: {tasks: [], filtredLengths: {active: 0, completed: 0, failed: 0}, activeFilter: 'active', showNewTaskForm: false, activeUser: ''},
   reducers: {
     newTaskForm(state) {
-      state.showNewTaskForm = !state.showNewTaskForm
+      state.showNewTaskForm = !state.showNewTaskForm;
+      document.body.style.overflow = state.showNewTaskForm ? 'hidden' : '';
+      
     },
     tasksUpdater(state, action) {
       state.tasks = action.payload;

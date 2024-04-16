@@ -36,7 +36,7 @@ function TasksPage() {
       {userIn && (
         <div>
           <div className="flex justify-around mb-6 items-center mt-8">
-            <h1>Your Stage</h1>
+            <h1 className="sm:text-base text-2xl">Your Stage</h1>
             <button
               onClick={handleNewFormVision}
               className="bg-slate-600 border-2 text-xl h-12 px-4 rounded-xl"
@@ -45,7 +45,7 @@ function TasksPage() {
             </button>
           </div>
           <div>
-            <ul className="flex gap-10 justify-center">
+            <ul className="flex sm:gap-10 gap-4 justify-center">
               {taskFilter.map((stage, index) => (
                 <li
                   key={index}
@@ -57,13 +57,13 @@ function TasksPage() {
                   id={stage.type}
                   onClick={() => handleFilterVision(stage.type)}
                 >
-                  <p>{stage.type}</p>
+                  <p className="text-sm sm:text-xl">{stage.type}</p>
                   <p className="bg-slate-800 w-6 h-6">{stage.quantity}</p>
                 </li>
               ))}
             </ul>
           </div>
-
+          <div className="bg-gradient-to-b from-slate-500 to-white rounded-lg my-6">
           {activeFilter === "active" && (
             <TasksList
               filtredList={listOfTasks.filter(
@@ -86,6 +86,7 @@ function TasksPage() {
             />
           )}
           {showNewTask && <NewTask />}
+          </div>
         </div>
       )}
     </section>

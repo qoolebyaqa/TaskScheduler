@@ -43,7 +43,7 @@ function GraphStats() {
     { name: "Active", value: filtredLengths.active },
   ];
 
-  const COLORS = ["#1b4a32", "#591a1a", "#2b1b4a"];
+  const COLORS = ["#7E7BC8", "#E4415C", "#32AE7C"];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
@@ -72,11 +72,10 @@ function GraphStats() {
   };
 
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-wrap justify-center gap-24 mb-4">
       <div className="h-44">
-        <p>Graph of saved time with completed tasks</p>
         <BarChart
-          width={115 * completedTasks.length}
+          width={300}
           height={300}
           data={data}
           margin={{
@@ -102,8 +101,7 @@ function GraphStats() {
         </BarChart>
       </div>
       <div>
-        <p>Graph of total tasks</p>
-        <PieChart width={400} height={300}>
+        <PieChart width={300} height={300}>
           <Pie
             data={data4Round}
             cx="50%"
