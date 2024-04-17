@@ -2,7 +2,7 @@ import Task from "./Task";
 
 function TasksList({filtredList}:any) {
   return (
-    <ul className="flex flex-wrap justify-center gap-20 py-12 pr-24">
+    <ul className={filtredList.length > 0 ? "flex flex-wrap justify-center gap-20 py-12 pr-24" : "flex flex-wrap justify-center gap-20 pr-24"}>
       {filtredList.map((task: any, index:number) => (
         <li key={index}>
           <Task

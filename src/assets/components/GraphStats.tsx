@@ -20,7 +20,6 @@ function GraphStats() {
   const completedTasks = listOfTasks.filter(
     (task: any) => task.stage === "completed"
   );
-
   const data = completedTasks.map((task: any) => {
     const positiveTime = Math.floor(
       (Number(new Date(task.duedate)) - Number(new Date(task.completedDate))) /
@@ -33,7 +32,7 @@ function GraphStats() {
     return {
       name: task.title,
       Result_Time: positiveTime,
-      Planned_Time: originTime,
+      Diff: originTime - positiveTime,
     };
   });
 
@@ -73,7 +72,7 @@ function GraphStats() {
 
   return (
     <div className="flex flex-wrap justify-center gap-24 mb-4">
-      <div className="h-44">
+      {completedTasks.length > 1 && <div className="h-44">
         <BarChart
           width={300}
           height={300}
@@ -97,10 +96,10 @@ function GraphStats() {
           <Tooltip />
           <Legend align="right" />
           <Bar dataKey="Result_Time" stackId="a" fill="rgb(8 145 178)" />
-          <Bar dataKey="Planned_Time" stackId="a" fill="#82ca9d" />
+          <Bar dataKey="Diff" stackId="a" fill="#82ca9d" />
         </BarChart>
-      </div>
-      <div>
+      </div> }
+      {(filtredLengths.completed > 0 && filtredLengths.failed > 0 && filtredLengths.active > 0) && <div>
         <PieChart width={300} height={300}>
           <Pie
             data={data4Round}
@@ -121,7 +120,7 @@ function GraphStats() {
           </Pie>
           <Legend />
         </PieChart>
-      </div>
+      </div>}
     </div>
   );
 }

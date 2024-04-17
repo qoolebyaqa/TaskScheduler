@@ -35,7 +35,7 @@ function Task({ title, details, deadline, id, stage, index }: any) {
   async function handleCompleteStatus() {
     const modifiedList = listOfTasks.map((task: any) => {
       if (task.id === id) {
-        task = { ...task, stage: "completed"};
+        task = { ...task, stage: "completed", completedDate: Date.now()};
       }
       return task;
     });
