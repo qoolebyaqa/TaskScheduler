@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { auth, createUser } from "../../../store/firebase";
 import LogOutButton from "./LogOutButton";
 import SignInForm from "./SignInForm";
@@ -7,13 +7,13 @@ import Stats from "../Stats";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { newTaskActions } from "../../../store";
 import { motion } from "framer-motion";
-
+import { TaskRelatedState } from "../../util/types";
 
 function CreateUserForm() {
   const [fetching, setFetching] = useState(false);
   const [err, setErr] = useState("");
-  const [showSignIn, setShowSignIn] = useState(false);
-  const activeUser = useSelector((state:any) => state.tasksRelated.activeUser);
+  const [showSignIn, setShowSignIn] = useState<boolean>(false);
+  const activeUser = useSelector((state: TaskRelatedState) => state.tasksRelated.activeUser);
   const dispatch = useDispatch();
 
   /* useEffect(() => {
@@ -38,10 +38,12 @@ function CreateUserForm() {
   */
 
   
-  async function handeSubmit(event: any) {
+  async function handeSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const fd = new FormData(event.target);
-    const data:any = Object.fromEntries(fd.entries());
+    const fd = new FormData(event.currentTarget);
+    const data: Record<string, string> = Object.fromEntries(
+      Array.from(fd.entries()) as [string, string][]
+    );
     if (!data.login || !data.password) {
       setErr('Please fill all required fields');
       return;
@@ -57,10 +59,10 @@ function CreateUserForm() {
     setFetching(false);
   }
 
-  function handleShowSignIn() {
+  function handleShowSignIn():void {
     setShowSignIn(true);
   }
-  function handleHideSignIn() {
+  function handleHideSignIn():void {
     setShowSignIn(false);
   }
 
@@ -98,7 +100,7 @@ function CreateUserForm() {
         </div>
         <Stats />
         </>
-      ): <SignInForm onRevertForm={handleHideSignIn}/>}
+      ): <SignInForm onRevertForm ={handleHideSignIn}/>}
     </>
   );
 }

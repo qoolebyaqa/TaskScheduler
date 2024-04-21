@@ -2,20 +2,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { newTaskActions } from "../../store";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { TaskRelatedState } from "../util/types";
 
 function NewTask() {
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState(false);
   const [err, setErr] = useState("");
-  const activeUser = useSelector((state:any) => state.tasksRelated.activeUser);
-  async function handleSaveTask(event:any){
+  const activeUser = useSelector((state:TaskRelatedState) => state.tasksRelated.activeUser);
+  async function handleSaveTask(event:React.FormEvent<HTMLFormElement>){
     event.preventDefault();
     setFetching(true)
     const newId = Date.now();
     
-    const fd = new FormData(event.target);
+    const fd = new FormData(event.currentTarget);
     
-    const data:any = {...Object.fromEntries(fd.entries()), stage: 'active', id: newId, creationDate: Date.now()};
+    const data:Record<string, string | number> = {...Object.fromEntries(fd.entries()), stage: 'active', id: newId, creationDate: Date.now()};
     try {
       const res = await fetch("https://udemy-max-b1bc4-default-rtdb.asia-southeast1.firebasedatabase.app/usertasks.json",
       {

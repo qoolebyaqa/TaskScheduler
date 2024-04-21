@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-function NearestTask({title, description, reserveDays}:any) {
+function NearestTask({title, description, reserveDays}:{title: string, description: string, reserveDays: number}) {
   const [visibleDetails, setVisibleDetails] = useState(false);
 
   function handleDetailsVisible() {

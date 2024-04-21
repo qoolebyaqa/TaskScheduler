@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import paths from "../util/paths";
 import { useSelector } from "react-redux";
+import { TaskRelatedState } from "../util/types";
 
 function HeaderNavigation() {
-  const userIn = useSelector((state: any) => state.tasksRelated.activeUser);
+  const userIn = useSelector((state: TaskRelatedState) => state.tasksRelated.activeUser);
   return (
     <header className="w-full pb-4">
       <nav>

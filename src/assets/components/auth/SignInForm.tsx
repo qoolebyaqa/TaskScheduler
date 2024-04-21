@@ -1,13 +1,14 @@
-import {  /* useEffect, */ useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { auth } from "../../../store/firebase";
-import { /* onAuthStateChanged, */ signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { newTaskActions } from "../../../store";
 import { motion } from "framer-motion";
+import { DBObject, TaskItem, handleSignInShowProps } from "../../util/types";
 
 
-export function filterDb (objFromDB:any, username:any) {
-  const arrData: any[] = [];
+export function filterDb (objFromDB:DBObject[], username:string | undefined) {
+  const arrData: TaskItem[] = [];
   for (let i in objFromDB) {
     if (objFromDB[i].sender === username) {
       arrData.push(objFromDB[i].tasksArr)
@@ -17,14 +18,14 @@ export function filterDb (objFromDB:any, username:any) {
 }
 
 
-function SignInForm({onRevertForm}:any) {
+const SignInForm: React.FC<handleSignInShowProps> = ({onRevertForm}) => {
   const [fetching, setFetching] = useState(false);
   const [err, setErr] = useState("");
   const dispatch = useDispatch();
   const pass = useRef<HTMLInputElement | null>(null);
   const login = useRef<HTMLInputElement | null>(null);
 
-  async function handeSubmit(event: any) {
+  async function handeSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (login.current!.value === '' && pass.current!.value === ''){
       setErr('Please fill all required fields');

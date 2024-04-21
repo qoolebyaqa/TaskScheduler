@@ -1,26 +1,27 @@
 import { useSelector } from "react-redux";
 import NearestTask from "./NearestTask";
+import { TaskItem, TaskRelatedState } from "../util/types";
 
-function TaskBoard({quantity}:any) {
-  const listOfTasks = useSelector((state: any) => state.tasksRelated.tasks);
+function TaskBoard({quantity}:{quantity: number | string}) {
+  const listOfTasks = useSelector((state: TaskRelatedState) => state.tasksRelated.tasks);
 
   const stats = listOfTasks
-    .filter((task: any) => {
+    .filter((task: TaskItem) => {
       return task.stage === "active";
     })
-    .map((task: any) => {      
+    .map((task: TaskItem) => {      
       const today = new Date(Date.now());
       const taskDueDate = new Date(task.duedate);
       return {...task, reserveDays: Math.floor((Number(taskDueDate) - Number(today)) / (60 * 60 * 24 * 1000))};
     })
-    .sort((itemA: any, itemB: any) => {
-      return (itemA.reserveDays - itemB.reserveDays);
-    }).slice(0, quantity);
+    .sort((itemA: TaskItem, itemB: TaskItem) => {
+      return (Number(itemA.reserveDays) - Number(itemB.reserveDays));
+    }).slice(0, Number(quantity));
 
   return (
     <>
       <ul>
-        {stats.map((task: any) => {
+        {stats.map((task: TaskItem) => {
           return (
             <li key={task.id}>
               <NearestTask

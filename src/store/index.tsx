@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { TaskItem } from '../assets/util/types';
 
 const TaskSlice = createSlice({
   name: "TasksRelated",
@@ -13,7 +14,7 @@ const TaskSlice = createSlice({
     tasksUpdater(state, action) {
       state.tasks = action.payload;
     },
-    newTaskAdd(state: any, action) {
+    newTaskAdd(state:any, action) {
       state.tasks = [...state.tasks, action.payload];
     },
     changeActiveFilter(state, action) {
@@ -21,9 +22,9 @@ const TaskSlice = createSlice({
     },
     filterOfTotalTasks(state) {
       state.filtredLengths = {...state.filtredLengths,
-      active: state.tasks.filter((task:any) => task.stage === 'active').length,
-      completed: state.tasks.filter((task:any) => task.stage === 'completed').length,
-      failed: state.tasks.filter((task:any) => task.stage === 'failed').length,
+      active: state.tasks.filter((task:TaskItem) => task.stage === 'active').length,
+      completed: state.tasks.filter((task:TaskItem) => task.stage === 'completed').length,
+      failed: state.tasks.filter((task:TaskItem) => task.stage === 'failed').length,
       }
     },
     markAsCompleted(state, action) {

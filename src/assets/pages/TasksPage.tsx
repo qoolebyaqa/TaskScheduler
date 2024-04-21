@@ -2,19 +2,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { newTaskActions } from "../../store";
 import NewTask from "../components/NewTask";
 import TasksList from "../components/TasksList";
+import { TaskItem, TaskRelatedState } from "../util/types";
 
 function TasksPage() {
   const showNewTask = useSelector(
-    (state: any) => state.tasksRelated.showNewTaskForm
+    (state: TaskRelatedState) => state.tasksRelated.showNewTaskForm
   );
-  const listOfTasks = useSelector((state: any) => state.tasksRelated.tasks);
+  const listOfTasks = useSelector((state: TaskRelatedState) => state.tasksRelated.tasks);
   const activeFilter = useSelector(
-    (state: any) => state.tasksRelated.activeFilter
+    (state: TaskRelatedState) => state.tasksRelated.activeFilter
   );
   const filtredLengths = useSelector(
-    (state: any) => state.tasksRelated.filtredLengths
+    (state: TaskRelatedState) => state.tasksRelated.filtredLengths
   );
-  const userIn = useSelector((state: any) => state.tasksRelated.activeUser);
+  const userIn = useSelector((state: TaskRelatedState) => state.tasksRelated.activeUser);
   const dispatch = useDispatch();
 
   const taskFilter = [
@@ -67,21 +68,21 @@ function TasksPage() {
           {activeFilter === "active" && (
             <TasksList
               filtredList={listOfTasks.filter(
-                (task: any) => task.stage === "active"
+                (task: TaskItem) => task.stage === "active"
               )}
             />
           )}
           {activeFilter === "completed" && (
             <TasksList
               filtredList={listOfTasks.filter(
-                (task: any) => task.stage === "completed"
+                (task: TaskItem) => task.stage === "completed"
               )}
             />
           )}
           {activeFilter === "failed" && (
             <TasksList
               filtredList={listOfTasks.filter(
-                (task: any) => task.stage === "failed"
+                (task: TaskItem) => task.stage === "failed"
               )}
             />
           )}

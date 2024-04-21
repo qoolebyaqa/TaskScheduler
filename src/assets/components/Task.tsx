@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { newTaskActions } from "../../store";
 import { motion } from "framer-motion";
+import { TaskItem, TaskRelatedState } from "../util/types";
 
-async function patchTask(id: any, status: string) {
+async function patchTask(id: number, status: string) {
   const baseUrl =
     "https://udemy-max-b1bc4-default-rtdb.asia-southeast1.firebasedatabase.app/usertasks/";
   try {
@@ -16,7 +17,7 @@ async function patchTask(id: any, status: string) {
   }
 }
 
-async function deleteTask(id: any) {
+async function deleteTask(id: number) {
   const baseUrl =
     "https://udemy-max-b1bc4-default-rtdb.asia-southeast1.firebasedatabase.app/usertasks/";
   try {
@@ -28,12 +29,12 @@ async function deleteTask(id: any) {
   }
 }
 
-function Task({ title, details, deadline, id, stage, index }: any) {
-  const listOfTasks = useSelector((state: any) => state.tasksRelated.tasks);
+function Task({ title, details, deadline, id, stage, index }: {title: string; details: string; deadline:string; id: string; stage: string; index: number }) {
+  const listOfTasks = useSelector((state: TaskRelatedState) => state.tasksRelated.tasks);
   const dispatch = useDispatch();
 
   async function handleCompleteStatus() {
-    const modifiedList = listOfTasks.map((task: any) => {
+    const modifiedList = listOfTasks.map((task: TaskItem) => {
       if (task.id === id) {
         task = { ...task, stage: "completed", completedDate: Date.now()};
       }
@@ -41,10 +42,10 @@ function Task({ title, details, deadline, id, stage, index }: any) {
     });
     dispatch(newTaskActions.markAsCompleted(modifiedList));
     dispatch(newTaskActions.filterOfTotalTasks());
-    await patchTask(id, "completed");
+    await patchTask(Number(id), "completed");
   }
   async function handleFailedStatus() {
-    const modifiedList = listOfTasks.map((task: any) => {
+    const modifiedList = listOfTasks.map((task: TaskItem) => {
       if (task.id === id) {
         task = { ...task, stage: "failed", completedDate: '' };
       }
@@ -52,10 +53,10 @@ function Task({ title, details, deadline, id, stage, index }: any) {
     });
     dispatch(newTaskActions.markAsFailed(modifiedList));
     dispatch(newTaskActions.filterOfTotalTasks());
-    await patchTask(id, "failed");
+    await patchTask(Number(id), "failed");
   }
   async function handleActiveStatus() {
-    const modifiedList = listOfTasks.map((task: any) => {
+    const modifiedList = listOfTasks.map((task: TaskItem) => {
       if (task.id === id) {
         task = { ...task, stage: "active", completedDate: '' };
       }
@@ -63,17 +64,17 @@ function Task({ title, details, deadline, id, stage, index }: any) {
     });
     dispatch(newTaskActions.markAsFailed(modifiedList));
     dispatch(newTaskActions.filterOfTotalTasks());
-    await patchTask(id, "active");
+    await patchTask(Number(id), "active");
   }
   async function handleDeleteTask() {
-    const indexToDelete = listOfTasks.findIndex((task: any) => task.id === id);
+    const indexToDelete = listOfTasks.findIndex((task: TaskItem) => task.id === id);
     const modifiedTasks = [
       ...listOfTasks.slice(0, indexToDelete),
       ...listOfTasks.slice(indexToDelete + 1),
     ];
     dispatch(newTaskActions.markAsFailed(modifiedTasks));
     dispatch(newTaskActions.filterOfTotalTasks());
-    await deleteTask(id);
+    await deleteTask(Number(id));
   }
   return (
     <div className="mt-3 w-1/2 m-auto hover: cursor-pointer">
